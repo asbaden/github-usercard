@@ -2,6 +2,13 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+const entry = document.querySelector(".cards");
+
+axios.get("https://api.github.com/users/asbaden")
+  .then(response => {
+    console.log(response);
+    entry.appendChild(GitCard(response.data));
+  })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -53,3 +60,56 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+
+function GitCard(data) {
+  //define elements
+const card = document.createElement("div"),
+      image = document.createElement("img"),
+      info = document.createElement("div"),
+      name = document.createElement("h3"),
+      username = document.createElement("p"),
+      location = document.createElement("p"),
+      profile = document.createElement("p"),
+      url = document.createElement('a'),
+      followers = document.createElement('p'),
+      following = document.createElement('p'),
+      bio = document.createElement('p');
+
+//append elements
+
+card.appendChild(image);
+card.appendChild(info);
+info.appendChild(name);
+info.appendChild(username);
+info.appendChild(location);
+info.appendChild(profile);
+info.appendChild(url);
+info.appendChild(followers);
+info.appendChild(following);
+info.appendChild(bio);
+
+//set up classes 
+
+card.classList.add("card");
+info.classList.add("card-info");
+name.classList.add("name");
+username.classList.add("username");
+
+//time to add that sweet sweet text content 
+
+image.src = data.avatar_url;
+
+name.textContent = data.name;
+username.textContent = data.login;
+location.textContent = data.location;
+profile.textContent = 'Profile:';
+url.textContent = data.url;
+followers.textContent = `Followers: ${data.followers}`;
+following.textContent = `Following: ${data.following}`;
+
+return card;
+
+
+
+}
